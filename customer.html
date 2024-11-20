@@ -1,0 +1,75 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.7/css/all.css">
+        <title>Admin - Product</title>
+        <style>
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            td, th {
+                border: none;
+                padding: 8px;
+            }
+            tr {
+                border-bottom: 1px solid #ccc;
+            }
+
+        </style>
+    </head>
+    <body>
+        <div>
+            <button type="submit" name="btndashboard">
+                <a href="/admin/dashboard">Dashboard</a>
+            </button>
+            <button type="submit" name="btndashboard">
+                <a href="/admin/product">Products</a>
+            </button>
+            <button type="submit" name="btndashboard">
+                <a href="/admin/order">Orders</a>
+            </button>
+            <button type="submit" name="btndashboard">
+                <a href="/admin/customer">Customers</a>
+            </button>
+            <button type="submit" name="btndashboard">
+                <a href="/admin/review">Reviews</a>
+            </button>
+            <button type="submit" name="btndashboard">
+                <a href="/admin/transaction">Transactions</a>
+            </button>
+        </div>
+        <div>
+            <h1>
+                <form action="/admin/customer" method="get">
+                    Customers
+                    <input type="text" name="searchCust" placeholder="Search" value="{{ request.args.get('searchCust', '') }}">
+                    <button type="submit" name="btnSearch">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </form>
+            </h1>
+            <table>
+                 <tr>
+                    <th>Customer ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Password</th>
+                    <th>Phone</th>
+                    <th>Address</th>
+                </tr>
+                {% for customer in customer %}
+                        <tr>
+                            <td>{{ customer.customerID }}</td>
+                            <td>{{ customer.firstName }}</td>
+                            <td>{{ customer.lastName }}</td>
+                            <td>{{ customer.email }}</td>
+                            <td>{{ customer.pwd }}</td>
+                            <td>{{ customer.phone }}</td>
+                            <td>{{ customer.address }}</td>
+                        </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </body>
+</html>
