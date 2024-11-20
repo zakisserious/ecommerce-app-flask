@@ -1,0 +1,91 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.7/css/all.css">
+        <title>Admin - Product</title>
+    </head>
+    <body>
+        <div>
+            <button type="submit" name="btndashboard">
+                <a href="/admin/dashboard">Dashboard</a>
+            </button>
+            <button type="submit" name="btndashboard">
+                <a href="/admin/product">Products</a>
+            </button>
+            <button type="submit" name="btndashboard">
+                <a href="/admin/order">Orders</a>
+            </button>
+            <button type="submit" name="btndashboard">
+                <a href="/admin/customer">Customers</a>
+            </button>
+            <button type="submit" name="btndashboard">
+                <a href="/admin/review">Reviews</a>
+            </button>
+            <button type="submit" name="btndashboard">
+                <a href="/admin/transaction">Transactions</a>
+            </button>
+        </div>
+        <h1>
+            <form action="/admin/order" method="get">
+                Orders
+                <input type="text" name="searchOrder" placeholder="Search an order" value="{{ request.args.get('searchOrder', '') }}">
+                <button type="submit" name="btnSearch">
+                    <i class="fa fa-search"></i>
+                </button>
+            </form>
+        </h1>
+        {% for order in order %}  
+        <div style="padding: 30;"> 
+            <h2>Order ID : {{order.orderID}}</h2>
+            <table>
+                <tr>
+                    <td>Customer ID : </td>
+                    <td>{{order.customerID}}</td>
+                </tr>
+                <tr>
+                    <td>Name :</td>
+                    <td> {{order.customer.firstName}} {{order.customer.lastName}}</td>
+                </tr>
+                <tr>
+                    <td>Shipping Address : </td>
+                    <td>{{order.shippingAddress}}</td>
+                </tr>
+                <tr>
+                    <td>Date of Order : </td>
+                    <td>{{order.orderDate}}</td>
+                </tr>
+            </table>
+            <hr>
+            <table style="width: 80%;" border="1">
+                <tr>
+                    <td>Order Item ID</td>
+                    <td>Product ID</td>
+                    <td>Product Name</td>
+                    <td>Quantity</td>
+                    <td>Price</td>
+                    <td>Status</td>
+                </tr>
+                {% for item in order.order_items %}
+                <tr>
+                    <td>{{item.orderItemID}}</td>
+                    <td>{{item.productID}}</td>
+                    <td>{{item.product.productName}}</td>
+                    <td>{{item.quantity}}</td>
+                    <td>{{item.price}}</td>
+                    {% if loop.first %}
+                        <td rowspan="{{ order.order_items|length +1 }}">{{ order.status }}</td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+                <tr>
+                    <th colspan="4">Total Amount :</th>
+                    <td>{{order.totalAmount}}</td>
+                </tr>
+            </table>
+            <hr>
+            <p>
+                Created At : {{order.createdAt}} | Updated At : {{order.updatedAt}}
+            </p>
+        </div>
+        {% endfor %}
+    </body>
+</html>
