@@ -1,0 +1,101 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.7/css/all.css">
+        <title>Admin - Product</title>
+    </head>
+    <body>
+        <div>
+            <button type="submit" name="btndashboard">
+                <a href="/admin/dashboard">Dashboard</a>
+            </button>
+            <button type="submit" name="btndashboard">
+                <a href="/admin/product">Products</a>
+            </button>
+            <button type="submit" name="btndashboard">
+                <a href="/admin/order">Orders</a>
+            </button>
+            <button type="submit" name="btndashboard">
+                <a href="/admin/customer">Customers</a>
+            </button>
+            <button type="submit" name="btndashboard">
+                <a href="/admin/review">Reviews</a>
+            </button>
+            <button type="submit" name="btndashboard">
+                <a href="/admin/transaction">Transactions</a>
+            </button>
+        </div>
+        <div>
+            <h1>Add Product</h1>
+            <form name="addproductform" action="/add" method="post">
+                <table>
+                    <tr>
+                        <td>Product Name :</td>
+                        <td>Price :</td>
+                        <td>Stock :</td>
+                        <td>Category :</td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" name="p_name" size="20" required></td>
+                        <td><input type="text" name="p_price" size="5" min="0.01" step="0.01" required></td>
+                        <td><input type="text" name="p_stock" size="3" min="0" required></td>
+                        <td>
+                            <select name="p_category" required>
+                                <option selected disabled>Category</option>
+                                <option value="1">Electronics</option>
+                                <option value="2">Clothing</option>
+                                <option value="3">Toys</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">Description</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"><textarea name="p_desc" cols="40" rows="5" required></textarea></td>
+                        <td align="center">
+                            <input type="submit" name="btnadd" value="Add">
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <div>
+            <h1>
+                <form action="/admin/product" method="get">
+                    Products
+                    <input type="text" name="searchProduct" placeholder="Search a product" value="{{ request.args.get('searchProduct', '') }}">
+                    <button type="submit" name="btnSearch">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </form>
+            </h1>
+            <table>
+                 <tr>
+                    <th>Product ID</th>
+                    <th colspan="2">Product Name</th>
+                    <th>Price</th>
+                    <th>In stock</th>
+                </tr>
+                <tr><td colspan="5"><hr></td></tr>
+                {% for product in product %}
+                    <form action="/update" method="post">
+                        <tr>
+                            <td>{{ product.productID }}</td>
+                            <td><img width="100" src="{{ url_for('static', filename='images/dummy.png') }}"></td>
+                            <td>
+                                <input type="text" name="p_name" size="20" required value="{{ product.productName }}"><br>
+                                <textarea name="p_desc" cols="40" rows="3" required>{{ product.description }}</textarea> <br>
+                                <input type="hidden" name="p_ID" value="{{ product.productID }}">
+                                <input type="submit" name="btndelete" value="Remove">
+                                <input type="submit" name="btnedit" value="Update">
+                            </td>
+                            <td><input type="text" name="p_price" size="5" min="0.01" step="0.01" value="{{ product.price }}" required></td>
+                            <td><input type="text" name="p_stock" size="3" min="0" value="{{ product.stock }}" required></td>
+                        </tr>
+                        <tr><td colspan="5"><hr></td></tr>
+                    </form>
+                {% endfor %}
+            </table>
+        </div>
+    </body>
+</html>
